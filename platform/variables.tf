@@ -34,7 +34,7 @@ variable "kube-cert-acm" {
 
 variable "external-dns" {
   default = {
-    enabled         = true
+    enabled         = false
     chart_version   = "6.20.1"
     namespace       = "system"
     service_account = "external-dns"
@@ -43,7 +43,7 @@ variable "external-dns" {
 
 variable "ingress" {
   default = {
-    enabled       = true
+    enabled       = false
     namespace     = "system"
     chart_version = "4.6.1"
     timeout       = "600"

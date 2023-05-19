@@ -3,15 +3,7 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-locals {
-  cluster_name = "${var.environment}_${var.region}_cluster"
-}
-
 data "aws_caller_identity" "current" {}
-
-locals {
-  account_id = data.aws_caller_identity.current.account_id
-}
 
 ### Kubernetes provider configuration
 data "aws_eks_cluster_auth" "eks" {
@@ -43,13 +35,3 @@ module "platform" {
   acme_email            = var.acme_email
   account_id            = local.account_id
 }
-
-#### Apps module
-# module "apps" {
-#   source          = "./apps"
-#   public_dns_zone = var.public_dns_zone
-#   depends_on = [
-#     module.platform
-#   ]
-# }
-

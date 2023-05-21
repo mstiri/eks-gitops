@@ -21,60 +21,25 @@ module "eks" {
 
   tags = local.tags
 
-  eks_managed_node_group_defaults = {
-    ami_type       = "AL2_x86_64"
-    disk_size      = 10
-    instance_types = ["t3a.small", "t3.small", "t3a.medium", "t3.medium", "t2.medium"]
-    capacity_type  = "SPOT"
-    update_config = {
-      max_unavailable_percentage = 50
-    }
-  }
-
   # Extend cluster security group rules
-  cluster_security_group_additional_rules = {
-    # egress_ephemeral_ports = {
-    #   description                = "Allow outgoing ephemeral port 1025-65535"
-    #   protocol                   = "tcp"
-    #   from_port                  = 1025
-    #   to_port                    = 65535
-    #   type                       = "egress"
-    #   source_node_security_group = true
-    # }
-  }
+  cluster_security_group_additional_rules = {}
 
   # Extend node-to-node security group rules
-  node_security_group_additional_rules = {
-
-  }
+  node_security_group_additional_rules = {}
 
   eks_managed_node_groups = {
     default = {
-      desired_capacity = 2
-      max_capacity     = 3
-      min_capacity     = 1
+      desired_capacity = 3
+      max_capacity     = 5
+      min_capacity     = 2
+      instance_types   = ["t3a.medium"]
+      capacity_type    = "ON_DEMAND"
+      disk_size        = 10
+      ami_type         = "AL2_x86_64"
 
       labels = {
         workload_type = "default"
       }
-
-    }
-    system = {
-      desired_capacity = 2
-      max_capacity     = 3
-      min_capacity     = 1
-
-      labels = {
-        workload_type = "system"
-      }
-      taints = [
-        {
-          key    = "workload_type"
-          value  = "system"
-          effect = "NO_SCHEDULE"
-        }
-      ]
-
     }
   }
 }

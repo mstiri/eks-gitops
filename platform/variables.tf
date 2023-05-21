@@ -8,46 +8,14 @@ variable "region" {}
 
 variable "account_id" {}
 
-variable "cert-manager" {
+variable "argocd" {
   default = {
-    enabled               = false
-    create_cluster_issuer = false
-    chart_version         = "1.11.2"
-    namespace             = "system"
-    service_account       = "cert-manager"
+    name             = "argocd"
+    chart            = "argo-cd"
+    repository       = "https://argoproj.github.io/argo-helm"
+    version          = "5.13.8"
+    namespace        = "argocd"
+    create_namespace = true
   }
-  validation {
-    condition     = var.cert-manager.enabled || (!var.cert-manager.enabled && !var.cert-manager.create_cluster_issuer)
-    error_message = "To create the cluster issuer, the cert-manager must be enabled"
-  }
-}
 
-variable "kube-cert-acm" {
-  default = {
-    enabled         = false
-    chart_version   = "0.0.3"
-    namespace       = "system"
-    service_account = "kube-cert-acm"
-    helm_repository = "https://mstiri.github.io/kube-cert-acm"
-  }
 }
-
-variable "external-dns" {
-  default = {
-    enabled         = false
-    chart_version   = "6.20.1"
-    namespace       = "system"
-    service_account = "external-dns"
-  }
-}
-
-variable "ingress" {
-  default = {
-    enabled       = false
-    namespace     = "system"
-    chart_version = "4.6.1"
-    timeout       = "600"
-  }
-}
-
-variable "acme_email" {}

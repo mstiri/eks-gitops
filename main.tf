@@ -32,6 +32,5 @@ module "platform" {
   public_dns_zone       = var.public_dns_zone
   eks                   = module.eks
   region                = var.region
-  acme_email            = var.acme_email
   account_id            = local.account_id
 }

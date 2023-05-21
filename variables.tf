@@ -12,6 +12,3 @@ variable "allowed_clients_cidrs" {}
 
 variable "public_dns_zone" {}
 
-variable "acme_email" {
-  description = "Email to be used with the CertManager ClusterIssuer to issue certificates"
-}
